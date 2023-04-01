@@ -48,22 +48,22 @@ export const options = {
 
 |NAME| VALUE|	DESCRIPTION|
 |---|---|---|
-|Shared| iterations|	고정된 반복 횟수는 여러 VU간에 "공유" 된다. |
-|Per VU iterations|	per-vu-iterations|	각 UV는 정확한 수의 반복을 실행한다. |
-|Constant VUs|	constant-vus| 고정된 수의 VU는 지정된 시간 동안 가능한 한 반복한다. 	|
-|Ramping VUs|	ramping-vus|	가변 수의 VU는 다음과 같이 실행된다. 지정된 시간동안 가능한 한 반복한다. |
+|Shared| iterations|	고정된 반복 횟수는 여러 VU간에 "공유" 된다.<br/>잘 안씀.<br/> 고정된 반복횟수를 지정된 시나리오들이 나눠가지게 되는데, 빨리끝나는 시나리오가 테스트를 다 가져갈 수 있다.(FAQ,고객센터 같은 테스트의 비율이 높아질 수 있음.) |
+|Per VU iterations|	per-vu-iterations|	각 VU는 정확한 수의 반복을 실행한다. 횟수만큼 테스트하고자할때 사용. |
+|**Constant VUs(*)**|	constant-vus| 고정된 수의 VU는 지정된 시간 동안 가능한 한 반복한다.<br/>TPS 확인할때 사용. 가장 많이씀.	|
+|Ramping VUs|	ramping-vus|	가변 수의 VU는 다음과 같이 실행된다. 지정된 시간동안 가능한 한 반복한다.<br/>계단식으로 VU가 증가하면서 최대VU가 될때까지 요청한다. |
 |Constant Arrival Rate|	constant-arrival-rate|	고정된 수의 반복이 실행된다. 지정된 기간동안|
 |Ramping Arrival Rate|	ramping-arrival-rate|	가변 반복 횟수는 다음과 같다. 지정된 시간에 실행된다. |
-|Externally Controlled|	externally-controlled| 런타임 시 실행 제어 및 확장 k6의 REST API또는 CLI를 통해 수행 |
+|Externally Controlled|	externally-controlled| 런타임 시 실행 제어 및 확장 k6의 REST API또는 CLI를 통해 수행.<br/>별로 안씀 |
 
 ## 공통 옵션
 
 |OPTION|	TYPE|	DESCRIPTION	DEFAULT|
 |---|---|---|
-|executor(required)| ️	string|	유니크 executor 이름. executor 섹션에서 가능한 값들의 리스트| -|
+|**executor(required)(*)**| ️	string|	유니크 executor 이름. executor 섹션에서 가능한 값들의 리스트| -|
 |startTime|	string|	이 시나리오가 실행을 시작해야 하는 테스트 시작 이후의 시간 오프셋이다| "0s"|
 |gracefulStop|	string|	반복을 강제로 중지하기 전에 반복 실행이 완료될 때까지 기다리는 시간이다. 여기에서 테스트 실행을 정상적으로 중지하는 방법에 대해 자세히 알아보라.| "30s"|
-|exec|	string|	실행을 위한 내보낼 JS 함수 이름이다.| "default"|
+|**exec(*)**|	string|	실행을 위한 내보낼 JS 함수 이름이다.| "default"|
 |env|	object|	이 시나리오에 관련된 환경 변수이다.|	{}|
 |tags|	object|	이 시나리오와 관련된 태그들.|	{}|
 
