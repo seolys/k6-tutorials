@@ -6,22 +6,28 @@
 
 --- 
 
-- 응답시간: 사용자의 요청으로 부터 결과를 반환하기 까지 시간
-- 안정성: 워크로드가 다양한 문제 상황에서도 일정한 쿼리티의 제품을 고객에게 제공할 수 있도록 안정적으로 운영되는지 여부
-- 확장성: 워크로드에 부하 혹은 시스템의 용량이 임계치에 도달한경우 시스템을 수직 혹은 수평으로 확장하여 일정한 서비스의 품질을 유지할 수 있는지 여부
-- 가용성: 물리적 장애, 어플리케이션의 부하등이 발생 했을때에도, 퀄리티를 유지하면서 고객에게 서비스를 제공하는지 여부
+- 응답시간(Response time): 사용자의 요청으로 부터 결과를 반환하기 까지 시간
+- 안정성(Reliability): 워크로드가 다양한 문제 상황에서도, 일정한 쿼리티의 제품을 고객에게 제공할 수 있도록 안정적으로 운영되는지 여부
+- 확장성(Scalability): 워크로드에 부하 혹은 시스템의 용량이 임계치에 도달한 경우, 시스템을 수직 혹은 수평으로 확장하여 일정한 서비스의 품질을 유지할 수 있는지 여부
+- 가용성(Availability): 물리적 장애, 어플리케이션의 부하등이 발생 했을때에도, 퀄리티를 유지하면서 고객에게 서비스를 제공하는지 여부
 
 ## 성능 테스트를 수행으로 알게 되는것
 
 1. 예상 목표 TPS를 달성하는가?
 2. 피크 시간에서 원활하게 서비스 할 수 있는가?
+  - TPS x 3
 3. 오랜시간 서비스를 수행하더라도 자원의 누수 없이 서비스를 수행할 수 있는가?
 4. 사람이 더 많이 들어오는 경우 수평/수직 확장을 하기 위한 기준은 무엇인가?
 5. 일부 시스템이 다운되어도 서비스를 적절히 수행할 수 있는 최소 리소스 요건은 어떻게 되는가?
+  - 나머지 서버들이 잘 견뎌내주는지
 6. 시스템 리소스가 오버 프로비저닝 되지 않았는가?
+  - 요청이 얼마 없는데, 장비는 과하게 좋은걸 쓰고있지는 않은지?
 7. 시스템 메트릭은 시스템을 잘 설명하고 있는가?
+  - 부하 툴만 가지고 진행하는 것이 아니라, 서버사이드의 메트릭을 보면서 튜닝을 진행할 수 있어야 한다.
+  - 메트릭 시스템을 통해 증명해낼 수 있어야 한다.
 8. 목표 달성을 위한 하드웨어/소프트웨어 어플리케이션 최적 설정값은 무엇인가?
-  
+  - 최소메모리, 최대메모리  
+
 ### 성능 Test 이론
 
 ### 용어
@@ -34,33 +40,33 @@
 
 - 총 사용자 (Total User)
   - $현재 서비스 요청자 + 서비스 대기자 + 비접속자$
-- 현재 서비스 요청자 (Active User)
-  - 현재 서비스에 요청을 보낸 상태에 있는 사용자
-- 서비스 대기자 (InActive User)
-  - 서비스에 접속은 하고 있으나 아직 요청을 보내지 않은 사용자
-- 동시 사용자 (Concurrency User)
-  - $Active User + InActive User$
+    - 현재 서비스 요청자 (Active User)
+      - 현재 서비스에 요청을 보낸 상태에 있는 사용자
+    - 서비스 대기자 (InActive User)
+      - 서비스에 접속은 하고 있으나 아직 요청을 보내지 않은 사용자
+    - 동시 사용자 (Concurrency User)
+      - $Active User + InActive User$
 
 ---
 
 - 처리량
   - 단위 시간당 처리되는 양 (건수)
-  - TPS(Transaction Per Second)
+  - TPS(Transaction Per Second): 초당 몇개의 요청을 처리해낼 수 있는가
   - RPS(Request Per Second)
   - Throughtput(처리량)
 - 처리량계산
-  - $처리량 = Active User / 평균 응답시간$
+  - $TPS 처리량 = Active User / 평균 응답시간$
 - Active User
   - $Active User = 처리량 * 평균 응답시간$
 - Request Interval (요청주기)
   - $Request Interval = Response Time (응답시간) + Think time (생각 시간) + Operation time (조작 시간)$
-- 응답시간 (Response Time)
-  - 사용자가 서버로 요청을 보내후 부터 응답이 오기까지 시간
-- 생각 시간 (Think Time)
-  - 응답을 받고 화면등을 보면서 생각하는 시간
-- 조작 시간 (Operation Time)
-  - 작업 요청을 보내기 위해서 데이터를 입력하거나, 화면을 채우는 시간
-  - 일반적으로 생각시간에 포함 시킨다. 
+    - 응답시간 (Response Time)
+      - 사용자가 서버로 요청을 보내후 부터 응답이 오기까지 시간
+    - 생각 시간 (Think Time)
+      - 응답을 받고 화면등을 보면서 생각하는 시간
+    - 조작 시간 (Operation Time)
+      - 작업 요청을 보내기 위해서 데이터를 입력하거나, 화면을 채우는 시간
+      - 일반적으로 생각시간에 포함 시킨다. 
 
 ### 성능 테스트 과정 
 
@@ -71,11 +77,12 @@
   - 모든 대상을 나열하고, 우선 순위에 때라 테스트 범위를 잡는다.
 - 테스트 조건
   - 테스트를 수행할때 각 어플리케이션마다 만족해야할 조건을 설정한다. 
-  - 30분 RapUp: 부하를 발생할때 30분간 목표 사용자가 접속하도록 램프업을 수행한다. 
+  - 30분 Ramp Up: 부하를 발생할때 30분간 목표 사용자가 접속하도록 램프업을 수행한다. 
   - 1시간 Steady State 유지: 시스템이 목표 사용자가 접속한 상태에서 목표하는 시간동인 유지되면 서비스가 정상으로 운영된다는 가정을 테스트 조건으로 지정한다. 
   - CPU Utilization < 70%: 목표 부하가 들어오는 상태에서 CPU 사용율이 70 이하가 유지되는 조건으로 지정했다.
   - 정상 응답 처리율: 부하가 들어왔을때 목표 시간내 정상적인 응답율이 98%를 달성하는지를 몰표로 잡았다.
   - 응답시간: 목표 평균 응답시간은 읽기/쓰기에 따라 목표 응답 시간을 지정한다. 
+    - 적정 응답시간 : 0.5초 or 0.2초정도 잡으면 된다.
 - 테스트 시나리오
   - 워크로드 모델을 작성한다. 
     - 워크로드 모델은 모든 요청 경로를 조사하고, 특정기준 80:20 중 80 요청을 테스트 대상 워크로드로 삼는다. 
@@ -108,7 +115,7 @@ from: https://publib.boulder.ibm.com/httpserv/cookbook/Cookbook_General-Theory.h
 
 - 성능테스트 방법에 따라 그래프 패턴을 확인할 수 있다. 
 
-#### LoadTest
+#### LoadTest (부하 테스트)
 
 -  LoadTest는 목표 TPS에 따라 부하를 주입하여 시스템의 평상시 로드를 수용할 수 있는지 확인한다. 
 
@@ -125,6 +132,8 @@ from: https://publib.boulder.ibm.com/httpserv/cookbook/Cookbook_General-Theory.h
 - 앞으로 소개될 K6에서는 ramping-arrival-rate 을 이용하여 스트레스 상황을 구현할 수 있다. 
 - [참고 Stress Test](https://k6.io/docs/test-types/stress-testing/)
 
+![stress-test](https://k6.io/docs/static/5a1571e3a4df83a907e0346e586c784f/e134c/stress-test.png)
+
 #### Soak Test
 
 - Soak Test는 Endurance Test 라고 하는 오랜기간 부하를 주입하였을때 시스템이 정상적으로 서비스를 수행하는지 확인하기 위한 용도로 사용된다. 
@@ -134,6 +143,9 @@ from: https://publib.boulder.ibm.com/httpserv/cookbook/Cookbook_General-Theory.h
 
 ![soak-test](https://k6.io/docs/static/d0a41ac91b107891e1fe9ef45d410e5b/deb37/soak-test.png)
 
+#### Spike Test
+
+#### Peak Test
 
 ### 워크로드 모델링
 
@@ -217,7 +229,7 @@ from: https://publib.boulder.ibm.com/httpserv/cookbook/Cookbook_General-Theory.h
 
 #### Install K6
 
-- [설치 공십 홈페이지](https://k6.io/docs/get-started/installation/)
+- [설치 공식 홈페이지](https://k6.io/docs/get-started/installation/)
 - mac 의 경우 brew 를 이용하여 설치 가능
 
 ```go
