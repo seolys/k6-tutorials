@@ -1,6 +1,6 @@
 # Constant VUs
 
-- 고정된 수의 vuser를 생성하고 지정된 시간 동안 가능한 많은 반복을 실행한다 
+- 고정된 수의 vuser를 생성하고, 지정된 시간 동안 가능한 많은 반복을 실행한다 
 - 고정된 수의 vuser를 사용하므로, 해당 vuser가 생성이 되면 일정시간 duration 동안 대상 엔드포인트로 요청을 지속적으로 보내게 된다.
 - 이때 응답이 빠르다면 지정된 시간동안 최대한 많은 요청이 수행될 것이며, 응답이 느리다면 요청수도 작아질 것이다. 
 
@@ -30,9 +30,9 @@ export const options = {
   discardResponseBodies: true,
   scenarios: {
     contacts: {
-      executor: 'constant-vus',
-      vus: 10,
-      duration: '30s',
+      executor: 'constant-vus', // 고정된 request를 계속 보낸다.
+      vus: 10, // 10개의 유저가 
+      duration: '30s', // 30초동안
     },
   },
 };
