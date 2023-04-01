@@ -115,7 +115,7 @@ from: https://publib.boulder.ibm.com/httpserv/cookbook/Cookbook_General-Theory.h
 
 - 성능테스트 방법에 따라 그래프 패턴을 확인할 수 있다. 
 
-#### LoadTest (부하 테스트)
+#### Load Test (부하 테스트)
 
 -  LoadTest는 목표 TPS에 따라 부하를 주입하여 시스템의 평상시 로드를 수용할 수 있는지 확인한다. 
 
@@ -313,7 +313,11 @@ default ✓ [======================================] 1 VUs  00m01.7s/10m0s  1/1 
 3. [Metrics 이해하기](02_metrics.md)
 4. Check와 Threshold
    1. [Check](03_check.md)
+     - 10초대는 몇건이고, 20초대는 몇건인지 등 결과에 대한 연산을 해보고자 할때.
+     - 특정 기준에 만족하지 못하더라도, 테스트는 계속 진행한다.
    2. [Threshold](04_threshold.md)
+    - 성능테스트를 할때, 특정 기준에 만족하지 못하는 경우가 발생하면 중단시키기.
+    - 테스트 메트릭에 대한 검사를 수행하고, 계속 진행할지 종료할지 결정.
 5. [Option 절](05_options.md)
 6. [Tag_groups](08_tags_groups.md)
 7. [Cookies](09_cookies.md)
@@ -328,10 +332,16 @@ default ✓ [======================================] 1 VUs  00m01.7s/10m0s  1/1 
 2. [shared_iterator](11_01_executor_shared_iterator.md)
 3. [per_vu_iterations](11_02_per_vu_iterations.md)
 4. [Open-Close Model](https://k6.io/docs/using-k6/scenarios/concepts/open-vs-closed/)
-5. [constant_vus](11_03_constant_vus.md)
-6. [ramping_vus](11_04_ramping_vus.md)
-7. [constant_arrival_rate](11_05_constant_arrival_rate.md)
-8. [ramping_arrival_rate](11_06_raminpg_arrive_rate.md)
+  - `constant_vus`와 `constant_arrival_rate`의 차이
+  - `Stress Test`를 할것인지 `Load Test`를 할것인지 
+    - Closed Model: 시작되는 요청이 응답을 받지 않아도 지정된 시간동안 요청을 계속 보낸다. Stress Test. 
+      5. [constant_vus(*)](11_03_constant_vus.md)
+      6. [ramping_vus](11_04_ramping_vus.md)
+     - Open Model: 시작되는 요청이 응답을 받아야 다시 재요청을 한다. Load Test.
+      7. [constant_arrival_rate](11_05_constant_arrival_rate.md)
+      8. [ramping_arrival_rate](11_06_raminpg_arrive_rate.md)
+
+
 
 ### 워크로드 모델 적용하기 
 
